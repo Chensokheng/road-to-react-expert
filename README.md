@@ -8,7 +8,6 @@
 > learn react 100 days
 
 
-```
 
 ## Author
 
