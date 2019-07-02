@@ -7,10 +7,7 @@
 
 > learn react 100 days
 
-## Install
 
-```sh
-npm install
 ```
 
 ## Author
