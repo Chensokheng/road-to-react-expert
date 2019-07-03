@@ -1,0 +1,4 @@
+"props" => is the attribute that we passing to the component and the componet never change that.
+
+"state" => is something that component has and is going to change in the 
+future.

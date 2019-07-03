@@ -16,44 +16,43 @@
     <div id="app"></div>
 
     <script type="text/babel">
-        class Hello extends React.Component{
-                
+        class Counter extends React.Component{
             constructor(props){
                 super(props);
-                this.state = {
-                    count: 0,
+                this.state ={
+                    count: 0
                 }
             }
             render(){
-                return (
+                return(
                     <div>
-                        <h1>
-                            Hello, {this.props.name || "default name"}
-                        </h1>
+                        <h1>Hello {this.props.name}</h1>
                         <h2>{this.state.count}</h2>
-                        <button onClick={this.addNumber}> click me </button>
+                        <button onClick={this.increment}>increment</button>
+                        <button onClick={this.decrement}>Decrement</button>
                     </div>
                 )
             }
-            addNumber = () => {
-                this.setState({
-                    count: this.state.count + 1,
-                })
+
+            increment =()=>{
+                this.setState(state => ({
+                    count: state.count + 1
+                }));
+            }
+            decrement =()=>{
+                this.setState(state =>({
+                    count: state.count - 1                 
+                }));
             }
         }
+        
         class App extends React.Component{
             render(){
                 return (
-                    <div>
-                        < Hello name="sokheng"/>
-                        < Hello name="usk"/>
-                        < Hello name="panha"/>
-                        < Hello /> 
-                    </div>
+                    <Counter name="sokheng" />
                 )
             }
         }
-
 
         // component,place to render
         ReactDOM.render(<App/>, document.querySelector("#app"));
@@ -62,6 +61,7 @@
     <!-- Babel to convert the jsx to make brower understand -->
     <!-- ReactDom is let us put the react component to the web page the DOM -->
     <!-- we can reuse the component -->
+    
 </body>
 
 </html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <title>additional</title>
+</head>
+<body>
+    <div id="app"></div>
+
+    <script type="text/babel">
+        class App extends React.Component{
+            constructor(props){
+                super(props);
+                this.state = {
+                    num1:1,
+                    num2:1,
+                    score: 0,
+                    respone: ""
+                }
+            }
+            render(){
+                if( this.state.score === 5){
+                    return this.renderWin();
+                }
+                 return this.renderProblem();
+            }
+
+            renderProblem(){
+                return(
+                    <div>
+                        <h1 id="output"> {this.state.num1} + {this.state.num2}</h1>
+                        <input onKeyPress={this.getInputkey} onChange={this.updateRespone}value={this.state.respone} />
+                        <h2>score:{this.state.score}</h2>
+                    </div>
+                )
+            }
+            renderWin(){
+                return(
+                    <h1>Congratulation!! You win the game 🎉</h1>
+                )
+            }
+
+            updateRespone = (event)=>{
+                this.setState({
+                    respone: event.target.value
+                });
+            }
+
+            getInputkey =(event) =>{
+                if ( event.key === "Enter"){
+                    const answer = parseInt(this.state.respone);
+                    if (answer === this.state.num1 + this.state.num2){
+                        this.setState(state =>({
+                            score: this.state.score + 1,
+                            num1: Math.ceil(Math.random() * 10),
+                            num2: Math.ceil(Math.random() * 10),
+                            respone: ""
+                        }));
+                    }else{
+                        this.setState({
+                            respone:""
+                        });
+                        document.querySelector("#output").style.color = "red";
+                    }
+                }
+            }
+        }
+
+        ReactDOM.render(<App/>,document.querySelector("#app"))
+        
+    </script>
+</body>
+</html>
