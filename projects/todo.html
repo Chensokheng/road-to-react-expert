@@ -1,11 +1,93 @@
-<!-- #todo the project
-#project feature
-1. add task
-2. delete task
-3.edit task
-4.done task
-5.count the undone task 
-expected done in 2 days
--->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Todo || App</title>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id='app'></div>
 
+    <script type="text/babel">
+        // navigation
+        class Navigation extends React.Component{
+            constructor(props){
+                super(props);
+            }
+            render(){
+                return (
+                    <div>
+                        <nav>
+                            <span>Todo</span>
+                            <div className="side-menu">
+                                    <span>Complete: 0</span>
+                                    <span>Uncomplete: 0</span>
+                            </div>
+                        </nav>
+                    </div>
+                )
+            }
+        }
+        // end of navigation
+        // task card 
 
+        class TaskCard extends React.Component{
+            render(){
+                return(
+                        <div className="task-card">
+                            <h3>{this.props.task}</h3>
+                        </div>
+                )
+            }
+        }
+                //  end task card 
+        // Add task
+        class Addtask extends React.Component{
+            constructor(props){
+                super(props);
+                this.state = {
+                    tasks: ["Working on react","read book","Feed cat"]
+                }
+            }
+            render(){
+                return(
+                    <div>
+                        <div className="add-task">
+                            <p><input className="input-task" autoFocus/></p>
+                            <p><button>Add task</button></p>
+                        </div> 
+                        <div className="task-container">
+                            {this.state.tasks.map(task =>
+                                <TaskCard task={task} />
+                            )}
+                        </div>
+                    </div>
+                )
+            }
+        }
+        // Add task
+
+       
+
+        class App extends React.Component{
+            render(){
+                return(
+                    <div>
+                        <Navigation />
+                        <Addtask />
+                        <TaskCard />
+                        
+                    </div>
+                )
+            }
+        }   
+
+        ReactDOM.render(<App/>, document.querySelector("#app"));
+    </script>
+</body>
+</html>
