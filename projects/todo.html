@@ -25,8 +25,8 @@
                         <nav>
                             <span>Todo</span>
                             <div className="side-menu">
-                                    <span>Complete: 0</span>
-                                    <span>Uncomplete: 0</span>
+                                    <span>Complete: {this.props.complete_task}</span>
+                                    <span>Uncomplete: {this.props.uncomplete_task}</span>
                             </div>
                         </nav>
                     </div>
@@ -40,9 +40,15 @@
             render(){
                 return(
                         <div className="task-card">
-                            <h3>{this.props.task}</h3>
+                            <span><input type="checkbox" onChange={this.markDone.bind(this)} /></span>
+                            <span className={this.props.complete?"complete":""}>{this.props.task}</span>
+                            <span className="delete">&times;</span>
                         </div>
                 )
+            }
+
+            markDone = () =>{
+                this.props.markDone(this.props.task)
             }
         }
                 //  end task card 
@@ -51,23 +57,83 @@
             constructor(props){
                 super(props);
                 this.state = {
-                    tasks: ["Working on react","read book","Feed cat"]
+                    tasks: [
+                        {
+                            title:"working on react",
+                            complete:false
+                        },
+                        {
+                            title:"Feed cat",
+                            complete:false
+                        },
+                        {
+                            title:"Reading",
+                            complete:true
+                        }
+                        ],
+                    input_task:""
                 }
             }
             render(){
                 return(
                     <div>
+                        <Navigation 
+                            uncomplete_task={this.countUncomplete()}
+                            complete_task={this.countComplete()}
+                        />
                         <div className="add-task">
-                            <p><input className="input-task" autoFocus/></p>
-                            <p><button>Add task</button></p>
+                            <p><input onChange={this.updateInput}className="input-task" autoFocus value={this.state.input_task}/></p>
+                            <p><button onClick={this.addTask}>Add task</button></p>
                         </div> 
                         <div className="task-container">
-                            {this.state.tasks.map(task =>
-                                <TaskCard task={task} />
+                            {this.state.tasks.map((task,index) =>
+                                <TaskCard 
+                                    task={task.title} key={index} 
+                                    complete={task.complete} 
+                                    markDone={this.markDone.bind(this)}
+                                />
                             )}
                         </div>
                     </div>
                 )
+            }
+            // Add task function
+            addTask = ()=>{
+                if (this.state.input_task.trim() !== ""){
+                    let new_task = {
+                        title:this.state.input_task,
+                        complete:false
+                    };
+                    this.setState(state =>({
+                        tasks:[...state.tasks,new_task],
+                        input_task:''
+                    }));
+                }
+            }
+            //update the input
+            updateInput = (event)=>{
+                this.setState({
+                    input_task: event.target.value
+                });
+
+            }
+            //count the uncomplete task
+            countUncomplete = ()=>{
+                let uncomplete = this.state.tasks.filter(task => !task.complete);
+                return uncomplete.length
+            }
+            //count the complete task
+            countComplete = () =>{
+                return this.state.tasks.filter(task => task.complete).length;
+            }
+            // Mark Done
+            markDone = (taskTitle)=>{
+                let currentTask = this.state.tasks.map( task => task.title == taskTitle?{task:task.title,complete:!task.complete}:task );
+                this.setState({
+                    tasks:currentTask
+                });
+               
+                
             }
         }
         // Add task
@@ -78,10 +144,8 @@
             render(){
                 return(
                     <div>
-                        <Navigation />
                         <Addtask />
-                        <TaskCard />
-                        
+                    
                     </div>
                 )
             }
